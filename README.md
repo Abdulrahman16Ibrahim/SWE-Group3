@@ -3,8 +3,8 @@
 
 Recipe Recommendation & Meal Planner
 
-Abdulrahman Ibrahim 
-Samatha Thokala  
-CHOOSHNITA BOLLINENI 
-Akshaya Vennamaneni 
+Abdulrahman Ibrahim \n 
+Samatha Thokala  \n
+CHOOSHNITA BOLLINENI \n 
+Akshaya Vennamaneni \n
 Doyinsola Oduwole
