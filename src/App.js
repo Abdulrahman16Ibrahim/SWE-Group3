@@ -5,6 +5,10 @@ import RecipeCard from "./RecipeCard";
 import Navbar from "./Navbar";
 import Categories from "./Categories";
 import HeroSection from "./HeroSection";
+import SuggestRecipes from "./SuggestedRecipes"
+import SuggestedRecipes from './SuggestedRecipes';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import SignUp from './SignUp';
 const searchApi = "https://www.themealdb.com/api/json/v1/1/search.php?s=";
 
 function App() {
@@ -29,15 +33,19 @@ function App() {
   }, []);
 
   return (
-    <div className="Container">
-      {/*<SideMenu/>*/}
-      <Navbar />
-      <HeroSection/>
-      
-
-      <Categories/>
+    <Router>
+      <div className="Container">
+        <Switch>
+          <Route exact path="/">
+            <SignUp/>
+          </Route>
+        </Switch>
+        <Route path="/recipes"> 
+        <Navbar />
+          <HeroSection/>
+          <Categories/>
+          <SuggestedRecipes/>
       <div className="recipes">
-        
         {recipes ? recipes.map(recipe => (
           <RecipeCard
              key={recipe.idMeal}
@@ -45,7 +53,9 @@ function App() {
           />
         )) : "No Result"}
       </div>
+      </Route>
     </div>
+    </Router>
   );
 }
 

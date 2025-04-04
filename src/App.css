@@ -93,8 +93,10 @@ a{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;  
+  justify-content: center;
+  max-width: 1200px;  
   gap: 20px;
+  margin: 0 auto;
   margin-top: 20px;
 }
 
@@ -200,16 +202,17 @@ a{
 }*/
 .categories-container {
   width: 100%;
-  max-width: 1053px;
-  margin: 0 auto;  /* Centers the section */
-  text-align: center; /* Centers text inside */
+  max-width: 1200px;
+  margin: 0 auto; 
+  text-align: center; 
 }
 
 .categories-toggle {
   display: flex;
-  justify-content: center; /* Centers the category buttons */
+  justify-content: flex-start;
   gap: 12px;
   flex-wrap: wrap;
+  width: 100%;  
 }
 
 .categories-header {
@@ -306,20 +309,24 @@ a{
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 12px;
+  padding: 8px 12px; 
   width: 100%;
   max-width: 455px;
   border: 1px solid #c3c3c3;
   border-radius: 4px;
   gap: 16px;
   box-sizing: border-box;
+  height: 40px; 
 }
-
+.search-bar .search-bar-icon{
+  color: #585858;
+  font-size: 20;
+}
 .menuu {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px; /* Optional: adjust the bottom margin if needed */
+  margin-bottom: 20px; 
   margin-left: 150px;
   margin-right: 150px;
 }
@@ -331,15 +338,8 @@ a{
 
 .text-container h2,
 .text-container p {
-  margin: 0; /* Removes the default margin from h2 and p */
+  margin: 0; 
 }
-
-
-.search-icon {
-  width: 24px;
-  height: 24px;
-}
-
 .search-input {
   border: none;
   outline: none;
@@ -353,3 +353,6 @@ a{
 .search-input::placeholder {
   color: #585858;
 }
+
+
+

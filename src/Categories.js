@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 const Categories = ({ defaultCategory = 'All' }) => {
   const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
   
-  const categories = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack', 'Soup', 'Vegan'];
+  const categories = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack', 'Soup', 'Vegan', 'Vegetarian','Dairy'];
 
   return (
     <div className="categories-container">

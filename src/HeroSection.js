@@ -1,5 +1,11 @@
 import React from 'react';
 import './HeroSection.css';
+import HeroImage from "./Assets/HeroImage.png" 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar, faMagnifyingGlass  } from '@fortawesome/free-solid-svg-icons'
+import { faClock } from "@fortawesome/free-regular-svg-icons";
+
+
 
 const HeroSection = ({ title = 'Recipes', subtitle = 'Discover trendy recipes', recipeTitle = 'Vegan: Beef and Lettuce Salad', time = '32 mins', badgeText = 'Popular' }) => {
   return (
@@ -11,9 +17,9 @@ const HeroSection = ({ title = 'Recipes', subtitle = 'Discover trendy recipes', 
           <p>{subtitle}</p>
         </div>
         <div className="search-bar">
-        <img src="https://dashboard.codeparrot.ai/api/image/Z-rfPHn5m-GBkPNG/iconamoo.png" alt="search" className="search-icon" />
+        <FontAwesomeIcon icon={faMagnifyingGlass} className='search-bar-icon'/>
         <input 
-          type="text"
+          type="search"
           placeholder="What do you want to cook today?"
           className="search-input"
         />
@@ -24,10 +30,11 @@ const HeroSection = ({ title = 'Recipes', subtitle = 'Discover trendy recipes', 
         <div className="hero-image-container">
           <div className="hero-overlay"></div>
           <img 
-            src="https://dashboard.codeparrot.ai/api/image/Z-rfPHn5m-GBkPNG/rectangl.png" 
-            alt="Featured Recipe" 
-            className="hero-image"
+              src={HeroImage} 
+              alt="Featured Recipe" 
+              className="hero-image"
           />
+
           
           <div className="hero-badge">
             <span>{badgeText}</span>
@@ -37,8 +44,8 @@ const HeroSection = ({ title = 'Recipes', subtitle = 'Discover trendy recipes', 
             <h2>{recipeTitle}</h2>
             <div className="recipe-meta">
               <div className="time-info">
-                <img src="https://dashboard.codeparrot.ai/api/image/Z-rfPHn5m-GBkPNG/mingcute.png" alt="Time" />
-                <span>{time}</span>
+              <FontAwesomeIcon icon={faClock} className="fa-icon" />
+              <span>{time}</span>
               </div>
               <img src="https://dashboard.codeparrot.ai/api/image/Z-rfPHn5m-GBkPNG/frame-10-2.png" alt="Rating" className="rating" />
             </div>
