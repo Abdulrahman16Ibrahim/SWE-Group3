@@ -6,16 +6,18 @@
 ## Setup and Run
 
 1. **Clone the Repository:**
-   git clone https://github.com/Abdulrahman16Ibrahim/SWE-Group3.git
+
+
+    git clone https://github.com/Abdulrahman16Ibrahim/SWE-Group3.git
    cd SWE-Group3
-2. **Install Dependencies:**
+3. **Install Dependencies:**
   From the root directory, run:
     npm run install-all
   This command will:
     Install backend dependencies (in recipe-app-backend)
     Install frontend dependencies (in recipe-app-frontend)
 
-3. **Start the Application:**
+4. **Start the Application:**
       Run:
         npm run start
         This launches both:
