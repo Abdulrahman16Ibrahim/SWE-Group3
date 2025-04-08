@@ -24,6 +24,7 @@
     Install frontend dependencies (in recipe-app-frontend)
 
 4. **Start the Application:**
+   
       Run:
    
         npm run start
