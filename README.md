@@ -15,6 +15,9 @@
   From the root directory, run:
   
     npm run install-all
+
+
+
     
   This command will:
     Install backend dependencies (in recipe-app-backend)
