@@ -22,7 +22,9 @@
 
 4. **Start the Application:**
       Run:
+   
         npm run start
+   
         This launches both:
           Backend: Node.js/Express server on port 5000
           Frontend: React development server on port 3000
