@@ -9,16 +9,12 @@
 
 
     git clone https://github.com/Abdulrahman16Ibrahim/SWE-Group3.git
-   cd SWE-Group3
+    cd SWE-Group3
 3. **Install Dependencies:**
    
-  From the root directory, run:
-  
-    npm run install-all
+  From the root directory, run: npm run install-all
 
 
-
-    
   This command will:
     Install backend dependencies (in recipe-app-backend)
     Install frontend dependencies (in recipe-app-frontend)
