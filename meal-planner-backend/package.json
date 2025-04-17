@@ -1,0 +1,7 @@
+{
+  "name": "meal-planner-backend",
+
+  "scripts": {
+    "start": "node app.js"
+  }
+}
