@@ -3,15 +3,18 @@ import "./SignUp.css";
 import SignupImage from "./Assets/SignupImage.png";
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const history = useHistory();
 
-  // Check individual password rules
   const isMinLength = password.length >= 8;
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);
@@ -26,7 +29,6 @@ const SignUp = () => {
       return;
     }
 
-    // Ensure all password rules are met
     if (!isMinLength || !hasUppercase || !hasLowercase || !hasNumber || !hasSpecialChar) {
       alert("Please ensure your password meets all the requirements.");
       return;
@@ -77,46 +79,52 @@ const SignUp = () => {
             required
           />
           <label htmlFor="Password">Password</label>
-          <input
-            type="password"
-            id="Password"
-            placeholder="Enter your password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="password-field">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="Password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              className="toggle-password"
+              onClick={() => setShowPassword(prev => !prev)}
+            />
+          </div>
+
           <div className="password-requirements">
             <ul>
-              <li className={isMinLength ? 'valid' : ''}>
-                Password must be at least 8 characters long.
-              </li>
-              <li className={hasUppercase ? 'valid' : ''}>
-                Must include at least one uppercase letter.
-              </li>
-              <li className={hasLowercase ? 'valid' : ''}>
-                Must include at least one lowercase letter.
-              </li>
-              <li className={hasNumber ? 'valid' : ''}>
-                Must include at least one number.
-              </li>
-              <li className={hasSpecialChar ? 'valid' : ''}>
-                Must include at least one special character (e.g., !@#$%).
-              </li>
+              <li className={isMinLength ? 'valid' : ''}>Password must be at least 8 characters long.</li>
+              <li className={hasUppercase ? 'valid' : ''}>Must include at least one uppercase letter.</li>
+              <li className={hasLowercase ? 'valid' : ''}>Must include at least one lowercase letter.</li>
+              <li className={hasNumber ? 'valid' : ''}>Must include at least one number.</li>
+              <li className={hasSpecialChar ? 'valid' : ''}>Must include at least one special character (e.g., !@#$%).</li>
             </ul>
           </div>
+
           <label htmlFor="Confirm Password">Confirm Password</label>
-          <input
-            type="password"
-            id="Confirm Password"
-            placeholder="Confirm password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
+          <div className="password-field">
+            <input
+              type={showConfirmPassword ? "text" : "password"}
+              id="Confirm Password"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <FontAwesomeIcon
+              icon={showConfirmPassword ? faEyeSlash : faEye}
+              className="toggle-password"
+              onClick={() => setShowConfirmPassword(prev => !prev)}
+            />
+          </div>
+
           <button type="submit">Create Account</button>
           <p className="agreement">
-            By signing up, you agree to our{" "}
-            <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>
+            By signing up, you agree to our <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>
           </p>
         </form>
       </div>

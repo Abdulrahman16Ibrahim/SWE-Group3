@@ -7,8 +7,8 @@ import Categories from "./Categories";
 import HeroSection from "./HeroSection";
 import SuggestedRecipes from './SuggestedRecipes';
 import SignUp from './SignUp';
-import LogIn from './LogIn'; // Import LogIn component
-import RecipeDetail from './RecipeDetail';  // Import RecipeDetail component
+import LogIn from './LogIn'; 
+import RecipeDetail from './RecipeDetail'; 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const searchApi = "http://localhost:5000/api/recipes?search=";

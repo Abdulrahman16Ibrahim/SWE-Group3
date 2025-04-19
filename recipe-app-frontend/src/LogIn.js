@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import "./LogIn.css"; 
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -27,6 +30,8 @@ const Login = () => {
     }
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <div className="login-container">
       <h2>Login</h2>
@@ -42,14 +47,22 @@ const Login = () => {
           required
         />
         <label htmlFor="Password">Password</label>
-        <input
-          type="password"
-          id="Password"
-          placeholder="Enter your password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
+        <div className="password-field">
+  <input
+    type={showPassword ? "text" : "password"}
+    id="Password"
+    placeholder="Enter your password"
+    value={password}
+    onChange={(e) => setPassword(e.target.value)}
+    required
+  />
+  <FontAwesomeIcon
+    icon={showPassword ? faEyeSlash : faEye}
+    className="toggle-password"
+    onClick={() => setShowPassword((prev) => !prev)}
+  />
+</div>
+
         <button type="submit">Login</button>
       </form>
     </div>

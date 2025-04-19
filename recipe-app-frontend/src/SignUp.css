@@ -87,4 +87,22 @@ button {
     color: green;
     font-weight: bold;
   }
+  .password-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .password-field input {
+    flex: 1;
+    padding-right: 40px;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #999;
+    font-size: 18px;
+  }
   
