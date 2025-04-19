@@ -9,6 +9,7 @@ import SuggestedRecipes from './SuggestedRecipes';
 import SignUp from './SignUp';
 import LogIn from './LogIn'; // Import LogIn component
 import RecipeDetail from './RecipeDetail';  // Import RecipeDetail component
+import MealPlanner from './MealPlanner';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 const searchApi = "http://localhost:5000/api/recipes?search=";
@@ -67,6 +68,9 @@ function App() {
           </Route>
           {/* Dynamic Recipe Detail Page */}
           <Route path="/recipes/:id" component={RecipeDetail} />
+            <Route path="/meal-planner">
+            <Navbar />
+            <MealPlanner />
         </Switch>
       </div>
     </Router>
