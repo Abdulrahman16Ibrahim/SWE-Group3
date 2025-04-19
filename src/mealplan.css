@@ -1,0 +1,23 @@
+.meal-planner {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .meal-planner table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .meal-planner th,
+  .meal-planner td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .meal-planner select {
+    width: 100%;
+    padding: 5px;
+  }
+  
