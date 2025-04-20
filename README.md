@@ -35,3 +35,5 @@ Run npm run install-all to install all dependencies
 Run npm run start to launch both backend and frontend
 
 Ensure Node.js, npm, and MySQL are installed, and MySQL is running
+
+# Clean history push
