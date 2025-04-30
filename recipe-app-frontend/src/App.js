@@ -9,7 +9,9 @@ import SuggestedRecipes from './SuggestedRecipes';
 import SignUp from './SignUp';
 import LogIn from './LogIn'; 
 import RecipeDetail from './RecipeDetail'; 
+
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
 
 const searchApi = "http://localhost:5000/api/recipes?search=";
 
@@ -49,6 +51,7 @@ function App() {
           <Route path="/login">
             <LogIn />
           </Route>
+           
           {/* Recipes List Page */}
           <Route exact path="/recipes">
             <Navbar />

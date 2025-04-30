@@ -1,70 +1,74 @@
 import React, { useState } from "react";
-import "./LogIn.css"; 
+import { Link, useHistory } from 'react-router-dom';
+import "./LogIn.css";
+import SignupImage from "./Assets/SignupImage.png";
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory();
+  const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState(null);
+  const history = useHistory();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', {
-        email,
-        password
-      });
-      console.log(response.data);
+      await axios.post('http://localhost:5000/api/users/login', { email, password });
       setMessage("Login successful!");
-      // Redirect to recipes page or dashboard after successful login.
       history.push("/recipes");
     } catch (error) {
-      console.error("Login error:", error.response ? error.response.data : error.message);
+      console.error("Login error:", error.response?.data || error.message);
       setMessage("Login failed. Please check your credentials.");
     }
   };
 
-  const [showPassword, setShowPassword] = useState(false);
-
   return (
     <div className="login-container">
-      <h2>Login</h2>
-      {message && <p className="message">{message}</p>}
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="Email">Email</label>
-        <input
-          type="email"
-          id="Email"
-          placeholder="Enter your Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label htmlFor="Password">Password</label>
-        <div className="password-field">
-  <input
-    type={showPassword ? "text" : "password"}
-    id="Password"
-    placeholder="Enter your password"
-    value={password}
-    onChange={(e) => setPassword(e.target.value)}
-    required
-  />
-  <FontAwesomeIcon
-    icon={showPassword ? faEyeSlash : faEye}
-    className="toggle-password"
-    onClick={() => setShowPassword((prev) => !prev)}
-  />
-</div>
+      <div className="left-panel">
+        <img src={SignupImage} alt="Login" />
+      </div>
+      <div className="right-panel">
+        <h2>Sign In</h2>
+        {message && <p className="message">{message}</p>}
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="Email">Email</label>
+          <input
+            type="email"
+            id="Email"
+            placeholder="Enter your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
 
-        <button type="submit">Login</button>
-      </form>
+          <label htmlFor="Password">Password</label>
+          <div className="password-field">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="Password"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              className="toggle-password"
+              onClick={() => setShowPassword(prev => !prev)}
+            />
+          </div>
+
+          <button type="submit">Sign In</button>
+
+          {/* Navigation Link to Sign Up */}
+          <p className="nav-link">
+            Don't have an account? <Link to="/">Sign up</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { Link, useHistory } from 'react-router-dom';
 import "./SignUp.css";
 import SignupImage from "./Assets/SignupImage.png";
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
@@ -15,6 +15,7 @@ const SignUp = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const history = useHistory();
 
+  // Password validation flags
   const isMinLength = password.length >= 8;
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);
@@ -23,12 +24,10 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
-
     if (!isMinLength || !hasUppercase || !hasLowercase || !hasNumber || !hasSpecialChar) {
       alert("Please ensure your password meets all the requirements.");
       return;
@@ -42,12 +41,11 @@ const SignUp = () => {
     };
 
     try {
-      const response = await axios.post('http://localhost:5000/api/users/register', userData);
-      console.log(response.data);
+      await axios.post('http://localhost:5000/api/users/register', userData);
       alert('Account created successfully!');
       history.push("/recipes");
     } catch (error) {
-      console.error("Error registering user:", error.response ? error.response.data : error.message);
+      console.error("Error registering user:", error.response?.data || error.message);
       alert('Registration failed. Please try again.');
     }
   };
@@ -55,7 +53,7 @@ const SignUp = () => {
   return (
     <div className="signup-container">
       <div className="left-panel">
-        <img src={SignupImage} alt="Signup" />
+        <img src={SignupImage} alt="Sign Up" />
       </div>
       <div className="right-panel">
         <h2>Create Account</h2>
@@ -69,6 +67,7 @@ const SignUp = () => {
             onChange={(e) => setName(e.target.value)}
             required
           />
+
           <label htmlFor="Email">Email</label>
           <input
             type="email"
@@ -78,6 +77,7 @@ const SignUp = () => {
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+
           <label htmlFor="Password">Password</label>
           <div className="password-field">
             <input
@@ -101,7 +101,7 @@ const SignUp = () => {
               <li className={hasUppercase ? 'valid' : ''}>Must include at least one uppercase letter.</li>
               <li className={hasLowercase ? 'valid' : ''}>Must include at least one lowercase letter.</li>
               <li className={hasNumber ? 'valid' : ''}>Must include at least one number.</li>
-              <li className={hasSpecialChar ? 'valid' : ''}>Must include at least one special character (e.g., !@#$%).</li>
+              <li className={hasSpecialChar ? 'valid' : ''}>Must include at least one special character.</li>
             </ul>
           </div>
 
@@ -123,9 +123,15 @@ const SignUp = () => {
           </div>
 
           <button type="submit">Create Account</button>
+
           <p className="agreement">
             By signing up, you agree to our <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>
           </p>
+          <p className="nav-link">
+            Already have an account? <Link to="/login">Sign in</Link>
+          </p>
+
+          
         </form>
       </div>
     </div>
