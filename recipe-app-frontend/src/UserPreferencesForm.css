@@ -1,0 +1,55 @@
+.preferences-form {
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: sans-serif;
+    padding: 20px;
+  }
+  
+  .preferences-form h2 {
+    color: #4CAF50;
+  }
+  
+  .subtext {
+    margin-bottom: 30px;
+    color: #666;
+  }
+  
+  section {
+    margin-bottom: 30px;
+  }
+  
+  .button-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .button-grid button {
+    border: 1px solid #4CAF50;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 14px;
+    background-color: white;
+    color: #4CAF50;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .button-grid button.active {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+  }
+  
+  .submit-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  

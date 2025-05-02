@@ -9,6 +9,7 @@ import SuggestedRecipes from './SuggestedRecipes';
 import SignUp from './SignUp';
 import LogIn from './LogIn'; 
 import RecipeDetail from './RecipeDetail'; 
+import UserPreferencesForm from "./UserPreferencesForm";
 
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
@@ -51,6 +52,11 @@ function App() {
           <Route path="/login">
             <LogIn />
           </Route>
+
+          <Route path="/preferences">
+          <UserPreferencesForm />
+        </Route>
+
            
           {/* Recipes List Page */}
           <Route exact path="/recipes">

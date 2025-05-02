@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useHistory } from 'react-router-dom';
 import "./SignUp.css";
 import SignupImage from "./Assets/SignupImage.png";
+// import UserPreferencesForm from "./UserPreferencesForm"; // not used, so commented
+
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -15,7 +17,6 @@ const SignUp = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const history = useHistory();
 
-  // Password validation flags
   const isMinLength = password.length >= 8;
   const hasUppercase = /[A-Z]/.test(password);
   const hasLowercase = /[a-z]/.test(password);
@@ -41,9 +42,18 @@ const SignUp = () => {
     };
 
     try {
-      await axios.post('http://localhost:5000/api/users/register', userData);
+      const response = await axios.post('http://localhost:5000/api/users/register', userData);
+      console.log("BACKEND RESPONSE:", response.data);
+
+      const userId = response.data.user_id;
+      console.log("Saving to localStorage → user_id:", userId);
+      localStorage.setItem("user_id", userId);
+      console.log("Saved:", localStorage.getItem("user_id"));
+
+
       alert('Account created successfully!');
-      history.push("/recipes");
+      history.push("/preferences");
+
     } catch (error) {
       console.error("Error registering user:", error.response?.data || error.message);
       alert('Registration failed. Please try again.');
@@ -125,13 +135,11 @@ const SignUp = () => {
           <button type="submit">Create Account</button>
 
           <p className="agreement">
-            By signing up, you agree to our <a href="">Terms of Service</a> and <a href="">Privacy Policy</a>
+            By signing up, you agree to our <a href="#!">Terms of Service</a> and <a href="#!">Privacy Policy</a>
           </p>
           <p className="nav-link">
             Already have an account? <Link to="/login">Sign in</Link>
           </p>
-
-          
         </form>
       </div>
     </div>

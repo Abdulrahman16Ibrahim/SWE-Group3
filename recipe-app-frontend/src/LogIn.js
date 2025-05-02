@@ -16,7 +16,14 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/users/login', { email, password });
+      const response = await axios.post('http://localhost:5000/api/users/login', {
+        email,
+        password
+      });
+
+      const userId = response.data.user.userId;
+      localStorage.setItem("userId", userId);
+
       setMessage("Login successful!");
       history.push("/recipes");
     } catch (error) {
@@ -63,7 +70,6 @@ const Login = () => {
 
           <button type="submit">Sign In</button>
 
-          {/* Navigation Link to Sign Up */}
           <p className="nav-link">
             Don't have an account? <Link to="/">Sign up</Link>
           </p>
