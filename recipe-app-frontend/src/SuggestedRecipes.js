@@ -20,7 +20,7 @@ const SuggestedRecipes = ({ searchQuery = '' }) => {
 
   useEffect(() => {
     let url = 'http://localhost:5000/api/recipes';
-    // Only add query parameter if searchQuery is not empty.
+   
     if (searchQuery) {
       url += `?cuisine=${encodeURIComponent(searchQuery)}`;
     }

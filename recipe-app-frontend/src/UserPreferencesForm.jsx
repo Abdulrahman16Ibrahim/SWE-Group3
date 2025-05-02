@@ -57,7 +57,7 @@ const UserPreferencesForm = () => {
       mealTypes: formData.mealTypes.join(",")
     };
 
-    console.log("Submitting preferences for userId:", userId); // ✅ Debug log
+    console.log("Submitting preferences for userId:", userId); 
 
     try {
       await axios.put("http://localhost:5000/api/users/preferences", formattedData);

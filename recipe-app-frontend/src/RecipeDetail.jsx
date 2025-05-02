@@ -11,7 +11,7 @@ const RecipeDetail = () => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState(null);
-  const [servings, setServings] = useState(1); // ✅ moved here
+  const [servings, setServings] = useState(1); 
 
   useEffect(() => {
     fetch(`http://localhost:5000/api/recipes/${id}`)
