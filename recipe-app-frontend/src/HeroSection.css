@@ -145,3 +145,16 @@
   }
   
   
+.hero-greeting h2 {
+  font-size: 1.5rem;      
+  font-weight: 500;      
+  margin-bottom: 1rem;   
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;          
+}
+
+.hero-greeting .greeting-icon {
+  font-size: 1.5rem;      
+  color: #ff6f61;        
+}

@@ -29,7 +29,7 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-// Login User
+// ✅ Updated Login User function
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -46,7 +46,14 @@ exports.loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials." });
     }
 
-    return res.json({ message: "Login successful!", user: { userId: user.user_id } });
+    // ✅ Now returning userId and firstName
+    return res.json({
+      message: "Login successful!",
+      user: {
+        userId: user.user_id,
+        firstName: user.first_name
+      }
+    });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Server error." });
@@ -56,7 +63,7 @@ exports.loginUser = async (req, res) => {
 // Update Preferences
 exports.updatePreferences = async (req, res) => {
   const {
-    user_id, // coming from frontend
+    user_id,
     dietaryPreferences,
     allergies,
     skillLevel,

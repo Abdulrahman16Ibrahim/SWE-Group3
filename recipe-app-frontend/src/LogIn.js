@@ -1,8 +1,9 @@
+// src/LogIn.jsx
 import React, { useState } from "react";
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory } from "react-router-dom";
 import "./LogIn.css";
 import SignupImage from "./Assets/SignupImage.png";
-import axios from 'axios';
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
@@ -16,13 +17,17 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/users/login', {
-        email,
-        password
-      });
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        { email, password }
+      );
 
-      const userId = response.data.user.userId;
+      // Destructure the returned userId and firstName
+      const { userId, firstName } = response.data.user;
+
+      // Store both in localStorage
       localStorage.setItem("userId", userId);
+      localStorage.setItem("userName", firstName);
 
       setMessage("Login successful!");
       history.push("/recipes");
@@ -45,7 +50,7 @@ const Login = () => {
           <input
             type="email"
             id="Email"
-            placeholder="Enter your Email"
+            placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -64,7 +69,7 @@ const Login = () => {
             <FontAwesomeIcon
               icon={showPassword ? faEyeSlash : faEye}
               className="toggle-password"
-              onClick={() => setShowPassword(prev => !prev)}
+              onClick={() => setShowPassword((prev) => !prev)}
             />
           </div>
 

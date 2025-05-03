@@ -1,39 +1,61 @@
 import React, { useState, useEffect } from 'react';
+import './MyRecipes.css';   
 import Navbar from './Navbar';
 import RecipeCard from './RecipeCard';
-import './MyRecipes.css';
 
 export default function MyRecipes() {
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const userId = localStorage.getItem('userId');
-  console.log('MyRecipes rendered, userId=', userId);
+  const userId = parseInt(localStorage.getItem('userId'), 10);
 
-
-
+  // Fetch saved recipes on mount
   useEffect(() => {
-    console.log('Fetching saved recipes for', userId);
     fetch(`http://localhost:5000/api/favorites?userId=${userId}`)
       .then(res => res.json())
-      .then(({ data }) => {
-        console.log('savedRecipes data:', data);
-        setSavedRecipes(data);
-      })
-      .catch(err => console.error(err))
+      .then(({ data }) => setSavedRecipes(data))
+      .catch(console.error)
       .finally(() => setLoading(false));
   }, [userId]);
+
+  // Unsave (DELETE) handler
+  const handleUnsave = async (recipeId) => {
+    try {
+      const res = await fetch('http://localhost:5000/api/favorites', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, recipeId })
+      });
+      if (res.ok) {
+        // update local state to remove that recipe
+        setSavedRecipes(savedRecipes.filter(r => r.recipe_id !== recipeId));
+      } else {
+        console.error('Failed to remove recipe');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
       <Navbar />
       <div className="my-recipes-page">
         <h2>My Saved Recipes</h2>
+
         {loading ? (
           <p>Loading…</p>
         ) : savedRecipes.length ? (
           <div className="recipes-grid">
             {savedRecipes.map(r => (
-              <RecipeCard key={r.recipe_id} recipe={r} />
+              <div key={r.recipe_id} className="saved-recipe-item">
+                <RecipeCard recipe={r} />
+                <button
+                  className="unsave-btn"
+                  onClick={() => handleUnsave(r.recipe_id)}
+                >
+                  Remove
+                </button>
+              </div>
             ))}
           </div>
         ) : (
@@ -42,5 +64,4 @@ export default function MyRecipes() {
       </div>
     </>
   );
-  }
-    
+}
