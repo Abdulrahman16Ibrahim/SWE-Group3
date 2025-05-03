@@ -43,5 +43,14 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  },
+  "scripts": {
+  "start:frontend": "npm start --prefix recipe-app-frontend",
+  "start:backend":  "npm start --prefix recipe-app-backend",
+  "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
+}
+
 }
