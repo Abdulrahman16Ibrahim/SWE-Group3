@@ -2,6 +2,7 @@
   --background-color: #ffffff;
   --primary-color: #4CAF50;
   --text-color: #101010;
+  --tertiary-color: #f44336;
   --font-size:16px;
   --shadow-color: rgba(0,0,0,0.2);
   --animation-speed: 1 ;
@@ -356,3 +357,76 @@ a{
 
 
 
+/*Nav bar css*/
+/* Navbar container */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 65px;
+  padding: 0 10vw;
+  background-color: var(--background-color);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo */
+.navbar .logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* Centered nav links */
+.nav-links {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+/* Link appearance + underline animation */
+.nav-links a {
+  position: relative;
+  color: var(--text-color);
+  font-weight: 500;
+  padding: 0.25rem 0;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary-color);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.nav-links a:hover::before,
+.nav-links a.active::before {
+  transform: scaleX(1);
+}
+.nav-links a.active {
+  color: var(--primary-color);
+}
+
+/* Logout button (icon + text) */
+.logout-btn {
+  background: none;
+  border: none;
+  color: var(--tertiary-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 100%;
+  padding: 0 0.5rem;
+  font-size: var(--font-size);
+  transition: opacity 0.2s ease;
+}
+.logout-btn:hover {
+  opacity: 0.7;
+}

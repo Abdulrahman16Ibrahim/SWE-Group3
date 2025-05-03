@@ -1,88 +1,137 @@
+// RecipeDetail.js
+
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import "./RecipeDetail.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar, faArrowLeft, faUtensils, faChartSimple, faListOl, faFire } from '@fortawesome/free-solid-svg-icons';
-import { faStar as fullStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft,
+  faUtensils,
+  faChartSimple,
+  faListOl,
+  faFire,
+  faStarHalfAlt,
+  faStar as fullStar
+} from "@fortawesome/free-solid-svg-icons";
 import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 import Navbar from "./Navbar";
 
 const RecipeDetail = () => {
   const { id } = useParams();
+  const userId = localStorage.getItem("userId");
+
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState(null);
-  const [servings, setServings] = useState(1); 
+  const [servings, setServings] = useState(1);
+  const [saved, setSaved] = useState(false);
 
+  // 1) Fetch recipe details
   useEffect(() => {
     fetch(`http://localhost:5000/api/recipes/${id}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch recipe details");
-        }
-        return response.json();
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch recipe details");
+        return res.json();
       })
-      .then(data => {
-        setRecipe(data.data);
-        console.log(data.data);
-      })
-      .catch(err => setError(err.message));
+      .then((data) => setRecipe(data.data))
+      .catch((err) => setError(err.message));
   }, [id]);
+
+  // 2) After recipe loads, check if it's already saved
+  useEffect(() => {
+    if (!recipe) return;
+
+    fetch(`http://localhost:5000/api/favorites?userId=${userId}`)
+      .then((r) => r.json())
+      .then(({ data }) => {
+        if (data.find((r) => r.recipe_id === Number(id))) {
+          setSaved(true);
+        }
+      })
+      .catch((err) => console.error("Error checking saved status:", err));
+  }, [recipe, id, userId]);
+
+  // 3) Save handler
+  const handleSave = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/favorites", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId, recipeId: recipe.recipe_id })
+      });
+      const result = await res.json();
+      if (res.ok) setSaved(true);
+      else console.warn(result.message);
+    } catch (err) {
+      console.error("Error saving recipe:", err);
+    }
+  };
 
   if (error) return <p>Error: {error}</p>;
   if (!recipe) return <p>Loading...</p>;
 
+  // Prepare instructions
   let instructionsArray = [];
   if (Array.isArray(recipe.instructions)) {
     instructionsArray = recipe.instructions;
   } else if (typeof recipe.instructions === "string") {
-    instructionsArray = recipe.instructions.split(/\r?\n/).filter(step => step.trim() !== "");
+    instructionsArray = recipe.instructions
+      .split(/\r?\n/)
+      .filter((step) => step.trim());
   }
 
+  // Prepare ingredients
   let ingredientsArray = [];
   if (Array.isArray(recipe.ingredients)) {
     ingredientsArray = recipe.ingredients;
   } else if (typeof recipe.ingredients === "string") {
-    ingredientsArray = recipe.ingredients.split(/\r?\n/).filter(item => item.trim() !== "");
+    ingredientsArray = recipe.ingredients
+      .split(/\r?\n/)
+      .filter((item) => item.trim());
   }
 
-  const increaseServings = () => setServings(prev => prev + 1);
-  const decreaseServings = () => setServings(prev => (prev > 1 ? prev - 1 : 1));
+  // Servings controls
+  const increaseServings = () => setServings((s) => s + 1);
+  const decreaseServings = () => setServings((s) => (s > 1 ? s - 1 : 1));
 
+  // Scale ingredient amounts
   const scaleIngredient = (ingredient) => {
-    const match = ingredient.match(/^(\d+(?:\/\d+)?|\d+(?:\.\d+)?)([a-zA-Z\s]*)?(.*)/);
+    const match = ingredient.match(
+      /^(\d+(?:\/\d+)?|\d+(?:\.\d+)?)([a-zA-Z\s]*)?(.*)/
+    );
     if (match) {
       let quantity = parseFloat(eval(match[1]));
       if (isNaN(quantity)) return ingredient;
-
-      const unitAndRest = match[2]?.trim() + " " + match[3]?.trim();
-      const newQty = (quantity * servings).toFixed(quantity % 1 === 0 ? 0 : 2);
-      return `${newQty} ${unitAndRest.trim()}`;
+      const rest = (match[2]?.trim() + " " + match[3]?.trim()).trim();
+      const newQty = (quantity * servings).toFixed(
+        quantity % 1 === 0 ? 0 : 2
+      );
+      return `${newQty} ${rest}`;
     }
     return ingredient;
   };
 
+  // Render star rating
   const renderStars = (rating) => {
     const stars = [];
-    const full = Math.floor(rating);
-    const hasHalf = rating % 1 !== 0;
-
-    for (let i = 0; i < full; i++) {
+    const fullCount = Math.floor(rating);
+    const half = rating % 1 !== 0;
+    for (let i = 0; i < fullCount; i++) {
       stars.push(<FontAwesomeIcon icon={fullStar} key={`full-${i}`} />);
     }
-
-    if (hasHalf) {
-      stars.push(<FontAwesomeIcon icon={faStarHalfAlt} key="half" />);
+    if (half) {
+      stars.push(
+        <FontAwesomeIcon icon={faStarHalfAlt} key="half-star" />
+      );
     }
-
     while (stars.length < 5) {
-      stars.push(<FontAwesomeIcon icon={emptyStar} key={`empty-${stars.length}`} />);
+      stars.push(
+        <FontAwesomeIcon icon={emptyStar} key={`empty-${stars.length}`} />
+      );
     }
-
     return stars;
   };
 
-  const mealDescription = `${recipe.recipe_name} is a delicious ${recipe.cuisine_type} dish that takes about ${recipe.cooking_time} minutes to prepare. 
-  Fluffy rice paired with succulent chicken stew, slow-cooked in a rich, flavorful tomato base, and topped with perfectly boiled eggs for a hearty and satisfying meal.`;
+  const mealDescription = `${recipe.recipe_name} is a delicious ${recipe.cuisine_type} dish that takes about ${recipe.cooking_time} minutes to prepare.`;
 
   return (
     <div className="recipe-detail">
@@ -96,7 +145,13 @@ const RecipeDetail = () => {
             </div>
             <h2>Recipe Details</h2>
           </div>
-          <button className="save-recipe-btn">Save Recipe</button>
+          <button
+            className="save-recipe-btn"
+            onClick={handleSave}
+            disabled={saved}
+          >
+            {saved ? "Saved" : "Save Recipe"}
+          </button>
         </div>
 
         <div className="content-container">
@@ -116,17 +171,17 @@ const RecipeDetail = () => {
                   <p className="summary-value">10 mins</p>
                 </div>
               </div>
-
               <div className="summary-item">
                 <div className="icon-box">
                   <FontAwesomeIcon icon={faFire} />
                 </div>
                 <div>
                   <p className="summary-label">Cook time</p>
-                  <p className="summary-value">{recipe.cooking_time} mins</p>
+                  <p className="summary-value">
+                    {recipe.cooking_time} mins
+                  </p>
                 </div>
               </div>
-
               <div className="summary-item">
                 <div className="icon-box">
                   <FontAwesomeIcon icon={faChartSimple} />
@@ -136,52 +191,40 @@ const RecipeDetail = () => {
                   <p className="summary-value">{recipe.difficulty}</p>
                 </div>
               </div>
-
               <div className="summary-item">
                 <div className="icon-box">
                   <FontAwesomeIcon icon={faListOl} />
                 </div>
                 <div>
                   <p className="summary-label">Total Steps</p>
-                  <p className="summary-value">{instructionsArray.length} Steps</p>
+                  <p className="summary-value">
+                    {instructionsArray.length} Steps
+                  </p>
                 </div>
               </div>
+            </div>
 
-              <div className="recipe-reviews">
-                <div className="recipe-header">
-                  <h2>Reviews</h2>
-                  <button className="rate-button">Rate Recipe</button>
-                </div>
-
-                <div className="review">
-                  <p className="review-text">"Very easy to make and the portion was just right. I added a little garlic to the brown rice for extra flavor"</p>
-                  <div className="review-meta">
-                    <div className="review-avatar">J</div>
-                    <div>
-                      <p className="review-name">Jane Doe</p>
-                      <div className="review-rating">
-                        <span>{recipe.rating}/5</span>
-                        {renderStars(recipe.rating)}
-                      </div>
+            <div className="recipe-reviews">
+              <div className="recipe-header">
+                <h2>Reviews</h2>
+                <button className="rate-button">Rate Recipe</button>
+              </div>
+              <div className="review">
+                <p className="review-text">
+                  "Very easy to make and the portion was just right..."
+                </p>
+                <div className="review-meta">
+                  <div className="review-avatar">J</div>
+                  <div>
+                    <p className="review-name">Jane Doe</p>
+                    <div className="review-rating">
+                      <span>{recipe.rating}/5</span>
+                      {renderStars(recipe.rating)}
                     </div>
                   </div>
                 </div>
-
-                <div className="review">
-                  <p className="review-text">"Very easy to make and the portion was just right. I added a little garlic to the brown rice for extra flavor"</p>
-                  <div className="review-meta">
-                    <div className="review-avatar">J</div>
-                    <div>
-                      <p className="review-name">Jane Doe</p>
-                      <div className="review-rating">
-                        <span>{recipe.rating}/5</span>
-                        {renderStars(recipe.rating)}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
+              {/* Add more reviews if you wish */}
             </div>
           </div>
 
@@ -190,10 +233,10 @@ const RecipeDetail = () => {
             <p className="recipe-description">{mealDescription}</p>
 
             <h3>Directions</h3>
-            {instructionsArray.length > 0 ? (
+            {instructionsArray.length ? (
               <ol>
-                {instructionsArray.map((step, index) => (
-                  <li key={index}>{step}</li>
+                {instructionsArray.map((step, idx) => (
+                  <li key={idx}>{step}</li>
                 ))}
               </ol>
             ) : (
@@ -206,19 +249,31 @@ const RecipeDetail = () => {
               <div className="ingredients-header">
                 <h3>Total Servings</h3>
                 <div className="servings-controls">
-                  <button className="servings-btn" onClick={decreaseServings}>−</button>
+                  <button
+                    className="servings-btn"
+                    onClick={decreaseServings}
+                  >
+                    −
+                  </button>
                   <span className="servings-count">{servings}</span>
-                  <button className="servings-btn" onClick={increaseServings}>+</button>
+                  <button
+                    className="servings-btn"
+                    onClick={increaseServings}
+                  >
+                    +
+                  </button>
                 </div>
               </div>
 
               <h3>Ingredients</h3>
               <ul className="ingredients-list">
-                {ingredientsArray.length > 0 ? (
-                  ingredientsArray.map((ingredient, index) => (
-                    <li key={index}>
-                      <span className="ingredient-number">{index + 1}</span>
-                      <span className="ingredient-text">{scaleIngredient(ingredient)}</span>
+                {ingredientsArray.length ? (
+                  ingredientsArray.map((ing, idx) => (
+                    <li key={idx}>
+                      <span className="ingredient-number">{idx + 1}</span>
+                      <span className="ingredient-text">
+                        {scaleIngredient(ing)}
+                      </span>
                     </li>
                   ))
                 ) : (
@@ -236,20 +291,19 @@ const RecipeDetail = () => {
                 {recipe.nutritional_info &&
                   recipe.nutritional_info
                     .split(/\r?\n/)
-                    .filter(line => line.trim() !== "")
-                    .map((line, index) => {
+                    .filter((l) => l.trim())
+                    .map((line, idx) => {
                       const [label, value] = line.split(":");
                       return (
-                        <div className="nutrition-row" key={index}>
-                          <span>{label?.trim()}</span>
-                          <span>{value?.trim()}</span>
+                        <div className="nutrition-row" key={idx}>
+                          <span>{label.trim()}</span>
+                          <span>{value.trim()}</span>
                         </div>
                       );
                     })}
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>

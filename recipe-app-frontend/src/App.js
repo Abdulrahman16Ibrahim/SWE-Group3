@@ -10,7 +10,7 @@ import SignUp from './SignUp';
 import LogIn from './LogIn'; 
 import RecipeDetail from './RecipeDetail'; 
 import UserPreferencesForm from "./UserPreferencesForm";
-
+import MyRecipes from './MyRecipes';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 
@@ -56,6 +56,8 @@ function App() {
           <Route path="/preferences">
           <UserPreferencesForm />
         </Route>
+
+        <Route path="/myRecipes" component={MyRecipes} />
 
            
           {/* Recipes List Page */}
