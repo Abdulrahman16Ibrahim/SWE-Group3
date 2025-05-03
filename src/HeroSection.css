@@ -1,0 +1,147 @@
+.hero-container {
+    width: 100%;
+    min-width: 320px;
+    padding: 20px;
+    background: inherit;
+  }
+  .hero-top-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .hero-text h1 {
+    font-family: 'Lato', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    color: #101010;
+    margin: 0;
+  }
+  
+  .hero-text p {
+    font-family: 'Lato', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: #565656;
+    margin: 0;
+  }
+  
+  .hero-image-container {
+    position: relative;
+    width: 100%;
+    height: 266px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.37);
+  }
+  
+  .hero-badge {
+    position: absolute;
+    top: 32px;
+    left: 40px;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 5px 22px;
+  }
+  
+  .hero-badge span {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #4CAF50;
+  }
+  
+  .recipe-details {
+    position: absolute;
+    bottom: 32px;
+    left: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+  }
+  
+  .recipe-details h2 {
+    font-family: 'Lato', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+  }
+  
+  .recipe-meta {
+    display: flex;
+    gap: 26px;
+    align-items: center;
+  }
+  
+  .time-info {
+    display: flex;
+    gap: 11px;
+    align-items: center;
+  }
+  
+  .time-info .fa-icon {
+    font-size: 24px;
+    color: #ffffff; 
+}
+
+  
+  .time-info span {
+    font-family: 'Lato', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ffffff;
+  }
+  
+  .rating {
+    height: 18px;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-image-container {
+      height: 200px;
+    }
+    
+    .recipe-details h2 {
+      font-size: 20px;
+    }
+    
+    .hero-badge {
+      top: 16px;
+      left: 16px;
+    }
+    
+    .recipe-details {
+      bottom: 16px;
+      left: 16px;
+    }
+  }
+  
+  
