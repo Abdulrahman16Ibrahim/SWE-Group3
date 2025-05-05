@@ -165,7 +165,7 @@ export default function RecipeDetail() {
           <div className="left-column">
             <img
               className="recipe-image"
-              src={recipe.recipe_thumb}
+              src={`/${recipe.recipe_thumb}`}
               alt={recipe.recipe_name}
             />
 
