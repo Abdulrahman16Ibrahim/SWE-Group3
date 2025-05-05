@@ -358,7 +358,7 @@ a{
 
 
 /*Nav bar css*/
-/* Navbar container */
+
 .navbar {
   display: flex;
   align-items: center;
@@ -376,7 +376,7 @@ a{
   color: var(--primary-color);
 }
 
-/* Centered nav links */
+
 .nav-links {
   display: flex;
   flex: 1;
@@ -384,7 +384,6 @@ a{
   gap: 1.5rem;
 }
 
-/* Link appearance + underline animation */
 .nav-links a {
   position: relative;
   color: var(--text-color);
@@ -413,7 +412,7 @@ a{
   color: var(--primary-color);
 }
 
-/* Logout button (icon + text) */
+
 .logout-btn {
   background: none;
   border: none;

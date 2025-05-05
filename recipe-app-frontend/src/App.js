@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import './App.css';
-import SearchBar from "./SearchBar";
 import RecipeCard from "./RecipeCard";
 import Navbar from "./Navbar";
 import Categories from "./Categories";
@@ -11,28 +10,31 @@ import LogIn from './LogIn';
 import RecipeDetail from './RecipeDetail'; 
 import UserPreferencesForm from "./UserPreferencesForm";
 import MyRecipes from './MyRecipes';
+import MealPlan from "./MealPlan";
+import MealPlanner   from './MealPlanner';
+import MyMealPlans  from './MyMealPlans';
+import NotFound from './NotFound';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-
-
-const searchApi = "http://localhost:5000/api/recipes?search=";
 
 function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [query, setQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [recipes, setRecipes] = useState([]);
 
-  // Function to search for recipes
   const searchRecipes = async () => {
     setIsLoading(true);
-    const url = searchApi + query;
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-      // Use data.data based on your API response structure.
-      setRecipes(data.data);
-    } catch (error) {
-      console.error("Error fetching recipes:", error);
+    const res = await fetch("http://localhost:5000/api/recipes");
+    const data = await res.json();
+    let list = data.data;
+    if (query) {
+      const q = query.toLowerCase();
+      list = list.filter(r => r.recipe_name.toLowerCase().includes(q));
     }
+    if (selectedCategory !== "All") {
+      list = list.filter(r => r.cuisine_type === selectedCategory);
+    }
+    setRecipes(list);
     setIsLoading(false);
   };
 
@@ -40,44 +42,50 @@ function App() {
     searchRecipes();
   }, []);
 
+  useEffect(() => {
+    searchRecipes();
+  }, [selectedCategory]);
+
   return (
     <Router>
       <div className="Container">
         <Switch>
-          {/* Sign Up Route */}
           <Route exact path="/">
             <SignUp />
           </Route>
-          {/* Log In Route */}
           <Route path="/login">
             <LogIn />
           </Route>
-
           <Route path="/preferences">
-          <UserPreferencesForm />
-        </Route>
-
-        <Route path="/myRecipes" component={MyRecipes} />
-
-           
-          {/* Recipes List Page */}
+            <UserPreferencesForm />
+          </Route>
+          <Route path="/myRecipes" component={MyRecipes} />
+          <Route path="/mealplan" component={MealPlan} />
           <Route exact path="/recipes">
             <Navbar />
-            <HeroSection />
-            <Categories />
+            <HeroSection
+              query={query}
+              onQueryChange={setQuery}
+              onSearch={searchRecipes}
+            />
+            <Categories
+              selectedCategory={selectedCategory}
+              onSelectCategory={setSelectedCategory}
+            />
             <SuggestedRecipes />
             <div className="recipes">
-              {recipes && recipes.length > 0 ? (
-                recipes.map(recipe => (
-                  <RecipeCard key={recipe.recipe_id} recipe={recipe} />
-                ))
-              ) : (
-                "No Result"
-              )}
+              {isLoading
+                ? "Loading…"
+                : recipes.length > 0
+                ? recipes.map(r => <RecipeCard key={r.recipe_id} recipe={r} />)
+                : "No Result"}
             </div>
           </Route>
-          {/* Dynamic Recipe Detail Page */}
           <Route path="/recipes/:id" component={RecipeDetail} />
+          <Route exact path="/notFound" component={NotFound} />
+          <Route path="/meal-plan" component={MealPlanner}/>
+<Route path="/my-plans"  component={MyMealPlans}/>
+          <Route component={NotFound} />
         </Switch>
       </div>
     </Router>

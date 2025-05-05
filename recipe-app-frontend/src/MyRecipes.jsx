@@ -1,3 +1,4 @@
+// src/MyRecipes.jsx
 import React, { useState, useEffect } from 'react';
 import './MyRecipes.css';   
 import Navbar from './Navbar';
@@ -6,10 +7,14 @@ import RecipeCard from './RecipeCard';
 export default function MyRecipes() {
   const [savedRecipes, setSavedRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const userId = parseInt(localStorage.getItem('userId'), 10);
+  // use the same key you wrote on signup/login
+  const userId = parseInt(localStorage.getItem('user_id'), 10);
 
-  // Fetch saved recipes on mount
   useEffect(() => {
+    if (!userId) {
+      setLoading(false);
+      return;
+    }
     fetch(`http://localhost:5000/api/favorites?userId=${userId}`)
       .then(res => res.json())
       .then(({ data }) => setSavedRecipes(data))
@@ -17,7 +22,6 @@ export default function MyRecipes() {
       .finally(() => setLoading(false));
   }, [userId]);
 
-  // Unsave (DELETE) handler
   const handleUnsave = async (recipeId) => {
     try {
       const res = await fetch('http://localhost:5000/api/favorites', {
@@ -26,8 +30,9 @@ export default function MyRecipes() {
         body: JSON.stringify({ userId, recipeId })
       });
       if (res.ok) {
-        // update local state to remove that recipe
-        setSavedRecipes(savedRecipes.filter(r => r.recipe_id !== recipeId));
+        setSavedRecipes(recipes =>
+          recipes.filter(r => r.recipe_id !== recipeId)
+        );
       } else {
         console.error('Failed to remove recipe');
       }
@@ -41,7 +46,6 @@ export default function MyRecipes() {
       <Navbar />
       <div className="my-recipes-page">
         <h2>My Saved Recipes</h2>
-
         {loading ? (
           <p>Loading…</p>
         ) : savedRecipes.length ? (

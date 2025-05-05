@@ -4,14 +4,17 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import logo from './logo.png';
-import './App.css';  // your existing global stylesheet
+import './App.css';
 
 export default function Navbar() {
   const history = useHistory();
-  const userId = localStorage.getItem('userId');
+  // ← changed to match your SignUp key
+  const userId = localStorage.getItem('user_id');
 
   const handleLogout = () => {
-    localStorage.removeItem('userId');
+    // ← clear the same key
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('userName'); // also clear the name if you want
     history.push('/login');
   };
 
@@ -22,10 +25,11 @@ export default function Navbar() {
       </NavLink>
 
       <div className="nav-links">
-        <NavLink exact to="/" activeClassName="active">Home</NavLink>
+        {/*<NavLink exact to="" activeClassName="active">Home</NavLink>*/}
         <NavLink to="/recipes" activeClassName="active">Recipes</NavLink>
         <NavLink to="/myRecipes" activeClassName="active">My Recipes</NavLink>
         <NavLink to="/mealplan" activeClassName="active">Meal Plan</NavLink>
+        <NavLink to="/my-plans"   activeClassName="active">My Plans</NavLink>
         <NavLink to="/shoppinglist" activeClassName="active">Shopping List</NavLink>
       </div>
 

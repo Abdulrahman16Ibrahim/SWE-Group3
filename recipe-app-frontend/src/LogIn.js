@@ -26,7 +26,7 @@ const Login = () => {
       const { userId, firstName } = response.data.user;
 
       // Store both in localStorage
-      localStorage.setItem("userId", userId);
+      localStorage.setItem("user_id", userId);
       localStorage.setItem("userName", firstName);
 
       setMessage("Login successful!");

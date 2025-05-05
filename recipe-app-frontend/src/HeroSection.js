@@ -4,12 +4,16 @@ import HeroImage from "./Assets/HeroImage.png";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { faClock } from "@fortawesome/free-regular-svg-icons";
+
 const HeroSection = ({
   title = 'Recipes',
   subtitle = 'Discover trendy recipes',
   recipeTitle = 'Vegan: Beef and Lettuce Salad',
   time = '32 mins',
-  badgeText = 'Popular'
+  badgeText = 'Popular',
+  query,
+  onQueryChange,
+  onSearch
 }) => {
   const [userName, setUserName] = useState('');
 
@@ -21,18 +25,16 @@ const HeroSection = ({
   return (
     <div className="hero-container">
       <div className="hero-content">
-       
         <div className="hero-top-menu">
           <div className="hero-text">
-             {userName && (
-          <div className="hero-greeting">
-            <h2>
-              Hello, {userName}! 
-              <span role="img" aria-label="wave">👋</span>
-            </h2>
-          </div>
-        )}
-
+            {userName && (
+              <div className="hero-greeting">
+                <h2>
+                  Hello, {userName}! 
+                  <span role="img" aria-label="wave">👋</span>
+                </h2>
+              </div>
+            )}
             <p>{subtitle}</p>
           </div>
           <div className="search-bar">
@@ -41,6 +43,9 @@ const HeroSection = ({
               type="search"
               placeholder="What do you want to cook today?"
               className="search-input"
+              value={query}
+              onChange={e => onQueryChange(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && onSearch()}
             />
           </div>
         </div>

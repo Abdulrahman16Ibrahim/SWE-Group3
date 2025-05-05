@@ -1,24 +1,30 @@
-import React, { useState } from 'react';
+// Categories.js
+import React from 'react';
 
-
-const Categories = ({ defaultCategory = 'All' }) => {
-  const [selectedCategory, setSelectedCategory] = useState(defaultCategory);
-  
-  const categories = ['All', 'Breakfast', 'Lunch', 'Dinner', 'Snack', 'Soup', 'Vegan', 'Vegetarian','Dairy'];
-
+const Categories = ({ selectedCategory, onSelectCategory }) => {
+  const categories = [
+    'All',
+    'Italian',
+    'French',
+    'Breakfast',
+    'Mexican',
+    'Mediterranean',
+    'American',
+    'Indian',
+    'Thai'
+  ];
   return (
     <div className="categories-container">
       <div className="categories-header">
         <h2 className="categories-title">Categories</h2>
         <span className="see-all">See all</span>
       </div>
-      
       <div className="categories-toggle">
-        {categories.map((category) => (
+        {categories.map(category => (
           <button
             key={category}
             className={`toggle-item ${selectedCategory === category ? 'active' : ''}`}
-            onClick={() => setSelectedCategory(category)}
+            onClick={() => onSelectCategory(category)}
           >
             {category}
           </button>
@@ -29,4 +35,3 @@ const Categories = ({ defaultCategory = 'All' }) => {
 };
 
 export default Categories;
-

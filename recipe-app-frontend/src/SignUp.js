@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { Link, useHistory } from 'react-router-dom';
 import "./SignUp.css";
 import SignupImage from "./Assets/SignupImage.png";
-// import UserPreferencesForm from "./UserPreferencesForm"; // not used, so commented
-
 import axios from 'axios';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
@@ -48,8 +46,8 @@ const SignUp = () => {
       const userId = response.data.user_id;
       console.log("Saving to localStorage → user_id:", userId);
       localStorage.setItem("user_id", userId);
+      localStorage.setItem("userName", userData.firstName); 
       console.log("Saved:", localStorage.getItem("user_id"));
-
 
       alert('Account created successfully!');
       history.push("/preferences");
