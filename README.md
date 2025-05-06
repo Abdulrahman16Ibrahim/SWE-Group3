@@ -36,12 +36,14 @@ Run npm run start to launch both backend and frontend
 
 Ensure Node.js, npm, and MySQL are installed, and MySQL is running
 
+**Link to Demo Video**
+https://drive.google.com/file/d/1KDpRir4qUWEvQGdDxE0cpfHOC_duzXd7/view?usp=sharing
+
 # Clean history push
 # SWE-Group3
  this repo is used for Class COSC612 semster project
 
 Recipe Recommendation & Meal Planner
-
 Abdulrahman Ibrahim  
 Samatha Thokala  
 CHOOSHNITA BOLLINENI  
